@@ -1,0 +1,68 @@
+/*Faixa da Home*/
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.top-bar .left a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.top-bar .right {
+    font-size: 14px;
+}
+/* Menu das opções */
+.sidebar {
+    width: 350px;
+    background-color: #333;
+    color: #fff;
+    padding: 60px;
+}
+
+.accordion-item {
+    border-bottom: 1px solid #444;
+}
+
+.accordion-title {
+    display: block;
+    padding: 15px;
+    background-color: #444;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.accordion-content {
+    display: none;
+    padding: 10px;
+    background-color: #555;
+}
+
+.accordion-content a {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.accordion-content a:hover {
+    background-color: #666;
+}
+
+.accordion-item input[type="checkbox"] {
+    display: none;
+}
+
+.accordion-item input[type="checkbox"]:checked ~ .accordion-content {
+    display: block;
+}
