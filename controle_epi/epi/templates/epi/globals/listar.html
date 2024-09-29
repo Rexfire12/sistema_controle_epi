@@ -1,4 +1,47 @@
 {% extends "epi/index.html" %}
 
-{% block content %}Listar{% endblock content %}
-<title>{% block title %}Segurity Epi{% endblock title %}</title>
+{% block content %}
+<div class="container justify-content-center mt-4">
+    <form action="{% url 'listar_epi' %}" method="get">
+    <div class="form-group">
+      <label class="form-label" for="nome">Nome</label>
+      <input class="form-control" type="text" name="nome" id="nome">
+    </div>
+    <input class="btn btn-primary mt-3" type="submit" value="Pesquisar">
+ </form>
+</div>
+{% if listar_epi %}
+<div class="container mt-3">
+    <h1 class="text-center">Listar EPI's</h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>C.A.</th>
+          <th>Validade</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in listar_epi %}
+        <tr>
+          <td>{{ item.id }}</td>
+          <td>{{ item.nome }}</td>
+          <td>{{ item.ca }}</td>
+          <td>{{ item.validade }}</td>
+          <td>
+            <a class="btn btn-danger" href="/deletar/{{ item.id}}">Deletar</a>
+            <a class="btn btn-warning" href="/atualizar/{{ item.id}}">Atualizar</a>
+        </td>
+        </tr>
+       </tr>
+       {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %} 
+<div class="container mt-5">
+        <p class="text-center h2" > Nenhum registro encontrado</p>
+</div>
+  {% endif %}
+{% endblock content %}

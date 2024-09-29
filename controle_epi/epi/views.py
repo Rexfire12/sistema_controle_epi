@@ -5,43 +5,49 @@ from epi.models import Equipamento
 # Create your views here.
 #Listar Usuários
 def index(request):
-    return render(request, 'epi/index.html')
-def listar_epi(request):
-    values = Equipamento.objects.all()
-    nome = request.Get.get('nome')
-    if nome: 
-     values = values.filter(nome__contains=nome)
-    return render(request, 'epi/globals/listar.html', {'values': values})
-   
-#Criar EPI
-def criar_epi(request):
-    nome = None
+    return render(request, 'epi/globals/home.html')
+
+#Cadastrar EPI
+def cadastrar_epi(request):
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        ca = request.POST.get('ca')
+        validade = request.POST.get('validade')
+        epi = Equipamento.objects.create(
+            nome=nome,
+            ca=ca,
+            validade=validade
+        )
+        return render(request, 'epi/globals/cadastrar.html', {'equipamento': epi})
+    return render(request, 'epi/globals/cadastrar.html')
+
+#Editar EPI
+def atualizar_epi(request, id):
+    equipamento = Equipamento.objects.get(id=id)
     if request.method == 'POST':
         nome = request.POST.get('nome')
         ca = request.POST.get('ca')
         validade = request.POST.get('validade')
         if nome and ca and validade:
-           Equipamento.objects.create(nome=nome, equipamento=ca, validade=validade)
-        print(nome)
-    return render(request, 'epi/globals/cadastrar.html', {"ultimo_nome":nome})
-   #Deletar 
-def deletar_epi(request, id):
-    epi = Equipamento.objects.get(id=id)
-    epi.delete()
-    return redirect(listar_epi)
-   #Atualizar 
-def atualizar_epi(request, id):
-    epi = Equipamento.objects.get(id=id)
-    if request.method == 'POST':
-        nome = request.POST.get('nome')
-        ca = request.POST.get('ca')
-        validade = request.POST.get('ca')
-        if nome and ca and validade:
-            epi.nome = nome
-            epi.ca = ca
-            epi.validade = validade
-            epi.save()
-            return redirect(listar_epi)
+            equipamento.nome = nome
+            equipamento.ca = ca
+            equipamento.validade = validade
+            equipamento.save()
+            return redirect('/atualizar')
         else:
-            return render(request, 'epi/globals/atualizar.html', {"item":epi, "erro":True})
-    return render(request, 'epi/globals/atualizar.html', {"item":epi})
+            return render(request, 'epi/globals/atualizar.html', {'equipamento': equipamento, 'error': 'Todos os campos devem ser preenchidos'})
+    return render(request, 'epi/globals/atualizar.html', {'equipamento': equipamento})
+
+#Listar EPIs
+def listar_epi(request):
+    values = Equipamento.objects.all()
+    nome = request.GET.get('nome')
+    ca = request.GET.get('ca')
+    validade = request.GET.get('validade')
+    if nome or ca or validade:
+        values = values.filter(
+            nome__icontains=nome,
+            ca__icontains=ca,
+            validade__icontains=validade
+        )
+    return render(request, 'epi/globals/listar.html', {'equipamento': values})

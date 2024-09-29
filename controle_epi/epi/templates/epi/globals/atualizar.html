@@ -1,3 +1,27 @@
 {% extends "epi/index.html" %}
 
-{% block content %}Cadastrar{% endblock content %}
+{% block content %}
+<div class="container">
+    <form action="/atualizar/{{ equipamento.id }}" method="post" class="registration-form">
+        {% csrf_token %}
+        <h2>Atualizar EPI</h2>
+        <label for="name">Nome:</label>
+        <input type="text" id="nome" name="nome" value="{{ equipamento.nome }}" required>
+        <label for="ca">C.A.:</label>
+        <input type="text" id="ca" name="ca" value="{{ equipamento.ca }}" required>
+        <label for="validade">Validade:</label>
+        <input type="text" id="validade" name="validade" value="{{ equipamento.validade }}" required>
+        <button class="btn btn-success" type="submit">Salvar</button>
+    </form>
+    {% if error %}
+    <p>{{ error }}</p>
+    {% endif %}
+    {% if equipamento %}
+    <ul>
+        <li>Nome: {{ equipamento.nome }}</li>
+        <li>C.A.: {{ equipamento.ca }}</li>
+        <li>Validade: {{ equipamento.validade }}</li>
+    </ul>
+    {% endif %}
+</div>
+{% endblock content %}

@@ -2,17 +2,24 @@
 
 {% block content %}
 <div class="container">
-    <form class="registration-form">
+    
+    <form action="/cadastrar/" method="post" class="registration-form">
+        {% csrf_token %}
         <h2>Cadastro de EPI</h2>
         <label for="name">Nome:</label>
-        <input type="text" id="name" name="name" required>
-        
+        <input type="text" id="" name="nome" required>
         <label for="name">C.A.:</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="" name="ca" required>
         <label for="name">Validade:</label>
-        <input type="text" id="name" name="name" required>
-        
-        <button type="submit">Salvar</button>
+        <input type="text" id="" name="validade" required>
+        <button class="btn btn-success" type="submit">Salvar</button>
     </form>
+    {%if equipamento%}
+    <ul>
+        <li>Nome: {{equipamento.nome}}</li>
+        <li>C.A.: {{equipamento.ca}}</li>
+        <li>Validade: {{equipamento.validade}}</li>
+    </ul>
+    {%endif%}
 </div>
 {% endblock content %}
