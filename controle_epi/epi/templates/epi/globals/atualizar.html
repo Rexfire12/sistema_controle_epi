@@ -5,23 +5,40 @@
     <form action="/atualizar/{{ equipamento.id }}" method="post" class="registration-form">
         {% csrf_token %}
         <h2>Atualizar EPI</h2>
-        <label for="name">Nome:</label>
+        
+        <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" value="{{ equipamento.nome }}" required>
+        
         <label for="ca">C.A.:</label>
         <input type="text" id="ca" name="ca" value="{{ equipamento.ca }}" required>
+        
         <label for="validade">Validade:</label>
-        <input type="text" id="validade" name="validade" value="{{ equipamento.validade }}" required>
+        <input type="date" id="validade" name="validade" value="{{ equipamento.validade }}" required>
+        
         <button class="btn btn-success" type="submit">Salvar</button>
     </form>
+    
     {% if error %}
-    <p>{{ error }}</p>
+        <p class="error">{{ error }}</p>
     {% endif %}
+    
     {% if equipamento %}
+    <h3>Detalhes do Equipamento</h3>
     <ul>
-        <li>Nome: {{ equipamento.nome }}</li>
-        <li>C.A.: {{ equipamento.ca }}</li>
-        <li>Validade: {{ equipamento.validade }}</li>
+        <li><strong>Nome:</strong> {{ equipamento.nome }}</li>
+        <li><strong>C.A.:</strong> {{ equipamento.ca }}</li>
+        <li><strong>Validade:</strong> {{ equipamento.validade }}</li>
     </ul>
     {% endif %}
 </div>
+<div class="container">
+    <h2>Confirmar Exclusão</h2>
+    <p>Você tem certeza que deseja excluir o EPI "{{ equipamento.nome }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Excluir</button>
+        <a href="{% url 'listar_epi' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+  </div>
 {% endblock content %}
+
