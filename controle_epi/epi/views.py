@@ -1,11 +1,24 @@
-from django.shortcuts import get_object_or_404, render, redirect
-from epi.models import Equipamento
+from django.shortcuts import render, redirect, get_object_or_404
+from epi.models import Equipamento, Colaborador
 
 
 # Create your views here.
-#Listar Usuários
 def index(request):
     return render(request, 'epi/globals/home.html')
+
+#Listar EPIs
+def listar_epi(request):
+    values = Equipamento.objects.all()
+    nome = request.GET.get('nome')
+    ca = request.GET.get('ca')
+    validade = request.GET.get('validade')
+    if nome:
+        values = values.filter(nome__icontains=nome)
+    if ca:
+        values = values.filter(ca__icontains=ca)
+    if validade:
+        values = values.filter(validade__icontains=validade)
+    return render(request, 'epi/globals/listar.html', {'equipamentos': values})
 
 #Cadastrar EPI
 def cadastrar_epi(request):
@@ -23,68 +36,51 @@ def cadastrar_epi(request):
 
 #Editar EPI
 def atualizar_epi(request, id):
-    # Tenta obter o equipamento, retorna 404 se não encontrado
-    equipamento = get_object_or_404(Equipamento, id=id)
+    epi = get_object_or_404(Equipamento, id=id)
     if request.method == 'POST':
         nome = request.POST.get('nome')
         ca = request.POST.get('ca')
         validade = request.POST.get('validade')
-        
-        # Validação mais robusta
-        if not (nome and ca and validade):
-            return render(request, 'epi/globals/atualizar.html', {
-                'equipamento': equipamento,
-                'error': 'Todos os campos devem ser preenchidos'
-            })
+        if nome and ca and validade:
+            epi.nome = nome
+            epi.ca = ca
+            epi.validade = validade
+            epi.save()
+            return redirect('listar_epi')  # Certifique-se de que 'listar_epi' é o nome correto da sua URL
+        else:
+            return render(request, 'epi/globals/atualizar.html', {'equipamento': epi, 'erro': True})
+    return render(request, 'epi/globals/atualizar.html', {'equipamento': epi})
 
-        try:
-            # Tente converter a validade para o tipo de dado correto (por exemplo, data)
-            equipamento.nome = nome
-            equipamento.ca = ca
-            equipamento.validade = validade
-            equipamento.save()
-            return redirect(f'/listar_epi/{equipamento.id}')  # Redireciona para a página de detalhes
-        except ValueError:
-            return render(request, 'epi/globals/atualizar.html', {
-                'equipamento': equipamento,
-                'error': 'Dados inválidos, por favor verifique os campos.'
-            })
-    
-    # Renderiza a página de atualização se o método for GET
-    return render(request, 'epi/globals/atualizar.html', {'equipamento': equipamento})
+#Excluir
+def excluir_epi(request, id):
+    epi = Equipamento.objects.get(id=id)
+    epi.delete()
+    return redirect(listar_epi)
 
-#Listar EPIs
-from django.shortcuts import render
-from .models import Equipamento
-
-def listar_epi(request):
-    # Obtendo todos os equipamentos inicialmente
-    values = Equipamento.objects.all()
-
-    # Obtendo parâmetros de filtro da URL
+#Listar Usuários
+def listar_usuarios(request):
+    values = Colaborador.objects.all()
     nome = request.GET.get('nome')
-    ca = request.GET.get('ca')
-    validade = request.GET.get('validade')
-
-    # Aplicando filtros se os parâmetros forem fornecidos
+    cargo = request.GET.get('cargo')
+    matricula = request.GET.get('matricula')
     if nome:
         values = values.filter(nome__icontains=nome)
-    if ca:
-        values = values.filter(ca__icontains=ca)
-    if validade:
-        values = values.filter(validade__icontains=validade)
+    if cargo:
+        values = values.filter(cargo__icontains=cargo)
+    if matricula:
+        values = values.filter(matricula__icontains=matricula)
+    return render(request, 'epi/globals/listar_usuario.html', {'usuario': values})
 
-    # Retornando o contexto para o template
-    return render(request, 'epi/globals/listar.html', {'equipamentos': values})
-#Excluir
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Equipamento
-
-def excluir_epi(request, id):
-    equipamento = get_object_or_404(Equipamento, id=id)
-
+#Cadastrar Usuários
+def cadastrar_usuario(request):
     if request.method == 'POST':
-        equipamento.delete()
-        return redirect('listar_epi')  # Redireciona para a lista de EPIs após a exclusão
-
-    return render(request, 'epi/globals/excluir.html', {'equipamento': equipamento})
+        nome = request.POST.get('nome')
+        cargo = request.POST.get('cargo')
+        matricula = request.POST.get('matricula')
+        usuario = Colaborador.objects.create(
+            nome=nome,
+            cargo=cargo,
+            matricula=matricula
+        )
+        return render(request, 'epi/globals/cadastrar_usuario.html', {'usuario':usuario})
+    return render(request, 'epi/globals/cadastrar_usuario.html')

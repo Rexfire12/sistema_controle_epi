@@ -1,26 +1,37 @@
 {% extends "epi/index.html" %}
 
+{% block title %}Segurity EPI's{% endblock title %}
+
 {% block content %}
 <div class="container">
-    <h2>Lista de EPIs</h2>
+    <h2>Relatório de EPI</h2>
     
-    <form method="get">
-        <input type="text" name="nome" placeholder="Nome" value="{{ request.GET.nome }}">
-        <input type="text" name="ca" placeholder="C.A." value="{{ request.GET.ca }}">
-        <input type="text" name="validade" placeholder="Validade" value="{{ request.GET.validade }}">
+    <form method="get" style="width: 50%; margin-bottom: 20px;">
+        <input type="text" name="nome" placeholder="Pesquisar um EPI" value="{{ request.GET.nome }}" style="width: 100%;">
         <button type="submit">Filtrar</button>
     </form>
-
-    <ul>
-        {% for equipamento in equipamentos %}
-            <li>
-                <strong>Nome:</strong> {{ equipamento.nome }}<br>
-                <strong>C.A.:</strong> {{ equipamento.ca }}<br>
-                <strong>Validade:</strong> {{ equipamento.validade }}
-            </li>
-        {% empty %}
-            <li>Nenhum equipamento encontrado.</li>
-        {% endfor %}
-    </ul>
+    
+    <table class="table table-bordered table-sm" style="width: 50%;">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>C.A.</th>
+                <th>Validade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipamento in equipamentos %}
+            <tr>
+                <td>{{ equipamento.nome }}</td>
+                <td>{{ equipamento.ca }}</td>
+                <td>{{ equipamento.validade }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">Nenhum equipamento encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

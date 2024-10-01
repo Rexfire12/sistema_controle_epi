@@ -4,31 +4,29 @@
 
 {% block content %}
 <div class="container" style="border: 1px solid #ccc; padding: 10px; border-radius: 5px; width: 300px;">
-    <form action="/cadastrar/" method="post" class="registration-form">
+    <form action="/cadastrar_usuario/" method="post" class="registration-form">
         {% csrf_token %}
-        <h2>Cadastro de EPI</h2>
+        <h2>Cadastro de Colaborador</h2>
         <div style="margin-bottom: 10px;">
             <label for="nome" style="display: inline-block; width: 70px;">Nome:</label>
             <input type="text" id="nome" name="nome" required style="width: calc(100% - 80px);">
         </div>
         <div style="margin-bottom: 10px;">
-            <label for="ca" style="display: inline-block; width: 70px;">C.A.:</label>
-            <input type="text" id="ca" name="ca" required style="width: calc(100% - 80px);">
+            <label for="Cargo" style="display: inline-block; width: 70px;">Cargo:</label>
+            <input type="text" id="Cargo" name="Cargo" required style="width: calc(100% - 80px);">
         </div>
         <div style="margin-bottom: 10px;">
-            <label for="validade" style="display: inline-block; width: 70px;">Validade:</label>
-            <input type="text" id="validade" name="validade" required style="width: calc(100% - 80px);">
+            <label for="Matricula" style="display: inline-block; width: 70px;">Matricula:</label>
+            <input type="text" id="Matricula" name="Matricula" required style="width: calc(100% - 80px);">
         </div>
         <button class="btn btn-success" type="submit">Salvar</button>
     </form>
-    {% if equipamento %}
+    {% if colaborador %}
     <ul>
-        <li>Nome: {{equipamento.nome}}</li>
-        <li>C.A.: {{equipamento.ca}}</li>
-        <li>Validade: {{equipamento.validade}}</li>
+        <li>Nome: {{colaborador.nome}}</li>
+        <li>Cargo: {{colaborador.cargo}}</li>
+        <li>Matricula: {{colaborador.matricula}}</li>
     </ul>
     {% endif %}
 </div>
 {% endblock content %}
-
-
