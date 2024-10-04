@@ -35,7 +35,10 @@ def cadastrar_epi(request):
     return render(request, 'epi/globals/cadastrar.html')
 
 #Editar EPI
-def atualizar_epi(request, id):
+def atualizar_epi(request, id=0):
+    if id == 0 and not request.GET.get('nome_item'): #FIXME Ajustar essa função... lembrando que.. .Quaando o usuário acessar a rota e o id for vazio. deve aparecer a tela com todos os dados. Se for um GET no campo de pesquisa e deve listar os items. Se for um post deve salvar
+        itens = Equipamento.objects.all()
+        return render(request, 'epi/globals/atualizar.html', {'itens': itens})
     epi = get_object_or_404(Equipamento, id=id)
     if request.method == 'POST':
         nome = request.POST.get('nome')

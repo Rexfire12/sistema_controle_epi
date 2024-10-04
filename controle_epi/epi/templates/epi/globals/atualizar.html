@@ -8,6 +8,7 @@
     <strong>Preencha todos os campos!</strong>
 </div>
 {% endif %}
+{% if epi.nome %}
 <form action="{% url 'atualizar' epi.id %}" method="post">
     {% csrf_token %}
     <div class="form-group my-2">
@@ -27,6 +28,7 @@
         <input class="btn btn-success" type="submit" value="Enviar">
     </div>
 </form>
+{% endif %}
 
 <!-- Barra de Pesquisa -->
 <div class="form-group my-2">
@@ -50,8 +52,8 @@
                 <td>{{ item.ca }}</td>
                 <td>{{ item.validade|date:'d/m/Y' }}</td>
                 <td>
-                    <a href="{% url 'editar' item.id %}" class="btn btn-primary btn-sm">Editar</a>
-                    <a href="{% url 'deletar' item.id %}" class="btn btn-danger btn-sm">Deletar</a>
+                    <a href="#FIXME" class="btn btn-primary btn-sm">Editar</a>
+                    <a href="#FIXME" class="btn btn-danger btn-sm">Deletar</a>
                 </td>
             </tr>
             {% endfor %}
