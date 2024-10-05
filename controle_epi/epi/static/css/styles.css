@@ -1,5 +1,4 @@
-
-/*Faixa da Home*/
+/* Faixa da Home */
 .top-bar {
     display: flex;
     justify-content: space-between;
@@ -10,7 +9,9 @@
     position: fixed;
     width: 100%;
     top: 0;
+    height: 60px; /* Define a altura do header */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Mantém a barra superior acima do sidebar */
 }
 
 .top-bar .left a {
@@ -22,16 +23,31 @@
 .top-bar .right {
     font-size: 14px;
 }
+
 /* Menu das opções */
 .sidebar {
-    width: 350px;
-    background-color: #333;
-    color: #fff;
-    padding: 60px;
+    position: fixed;
+    top: 60px; /* Igual à altura do header */
+    left: 0;
+    width: 300px;
+    height: calc(100vh - 60px); /* Altura total da tela menos a altura do header */
+    background-color: #444; /* Cor de fundo para diferenciar */
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 999; /* Fica abaixo da top-bar */
 }
+
 
 .accordion-item {
     border-bottom: 1px solid #444;
+}
+
+.accordion-item label:hover {
+    background-color: #666;
+}
+
+.accordion-item > input[type="checkbox"]:checked ~ label {
+    background-color: #666;
 }
 
 .accordion-title {
@@ -45,7 +61,6 @@
 
 .accordion-content {
     display: none;
-    padding: 10px;
     background-color: #555;
 }
 
@@ -68,3 +83,9 @@
     display: block;
 }
 
+.main-content {
+    margin-left: 300px; /* Igual à largura do sidebar */
+    padding: 20px;
+    padding-top: 60px; /* Adiciona espaço igual à altura da top-bar */
+    background-color: #fff;
+}
