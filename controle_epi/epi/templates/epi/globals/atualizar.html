@@ -1,28 +1,29 @@
 {% extends "epi/index.html" %}
 
 {% block content %}
-<p>Atualizando</p>
+
 {% if erro %}
 <div class="alert alert-danger alert-dismissible fade show">
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     <strong>Preencha todos os campos!</strong>
 </div>
 {% endif %}
-{% if epi.nome %}
-<form action="{% url 'atualizar' epi.id %}" method="post">
+
+{% if equipamento %}
+<form action="{% url 'atualizar_epi' equipamento.id %}" method="post">
     {% csrf_token %}
     <div class="form-group my-2">
         <label for="nome">Nome</label>
-        <input class="form-control" type="text" name="nome" placeholder="Nome" value="{{ epi.nome }}">
+        <input class="form-control" type="text" name="nome" placeholder="Nome" value="{{ equipamento.nome }}">
     </div>
     
     <div class="form-group my-2">
-        <label for="C.A.">C.A.</label>
-        <input class="form-control" type="text" name="C.A." placeholder="C.A." value="{{ epi.ca }}">
+        <label for="ca">C.A.</label>
+        <input class="form-control" type="text" name="ca" placeholder="C.A." value="{{ equipamento.ca }}">
     </div>
     <div class="form-group my-2">
         <label for="validade">Validade</label>
-        <input class="form-control" type="date" name="Validade" placeholder="Validade" value="{{ epi.validade|date:'Y-m-d' }}">
+        <input class="form-control" type="date" name="validade" placeholder="Validade" value="{{ equipamento.validade|date:'Y-m-d' }}">
     </div>
     <div>
         <input class="btn btn-success" type="submit" value="Enviar">
@@ -31,9 +32,10 @@
 {% endif %}
 
 <!-- Barra de Pesquisa -->
-<div class="form-group my-2">
-    <input type="text" class="form-control" id="search" placeholder="Pesquisar...">
-</div>
+<form class="form-group my-2" method="get">
+    <input type="text" name="nome_item" placeholder="Pesquisar um EPI" value="{{ request.GET.nome_item }}" style="width: 100%;">
+    <button type="submit" class="btn btn-primary btn-sm">Pesquisar</button>
+</form>
 
 <!-- Tabela com Itens do Banco de Dados -->
 <div class="table-responsive">
@@ -43,7 +45,8 @@
                 <th>Nome</th>
                 <th>C.A.</th>
                 <th>Validade</th>
-               </tr>
+                <th>Ações</th>
+            </tr>
         </thead>
         <tbody>
             {% for item in itens %}
@@ -52,8 +55,8 @@
                 <td>{{ item.ca }}</td>
                 <td>{{ item.validade|date:'d/m/Y' }}</td>
                 <td>
-                    <a href="#FIXME" class="btn btn-primary btn-sm">Editar</a>
-                    <a href="#FIXME" class="btn btn-danger btn-sm">Deletar</a>
+                    <a href="{% url 'atualizar_epi' item.id %}" class="btn btn-primary btn-sm">Editar</a>
+                    <a href="{% url 'excluir_epi' item.id %}" class="btn btn-danger btn-sm">Deletar</a>
                 </td>
             </tr>
             {% endfor %}
@@ -61,5 +64,6 @@
     </table>
 </div>
 {% endblock content %}
+
 
 

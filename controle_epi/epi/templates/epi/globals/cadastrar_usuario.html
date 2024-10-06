@@ -12,21 +12,22 @@
             <input type="text" id="nome" name="nome" required style="width: calc(100% - 80px);">
         </div>
         <div style="margin-bottom: 10px;">
-            <label for="Cargo" style="display: inline-block; width: 70px;">Cargo:</label>
-            <input type="text" id="Cargo" name="Cargo" required style="width: calc(100% - 80px);">
+            <label for="cargo" style="display: inline-block; width: 70px;">Cargo:</label>
+            <input type="text" id="cargo" name="cargo" required style="width: calc(100% - 80px);">
         </div>
         <div style="margin-bottom: 10px;">
-            <label for="Matricula" style="display: inline-block; width: 70px;">Matricula:</label>
-            <input type="text" id="Matricula" name="Matricula" required style="width: calc(100% - 80px);">
+            <label for="matricula" style="display: inline-block; width: 70px;">Matricula:</label>
+            <input type="text" id="matricula" name="matricula" required style="width: calc(100% - 80px);">
         </div>
         <button class="btn btn-success" type="submit">Salvar</button>
     </form>
     {% if colaborador %}
     <ul>
-        <li>Nome: {{colaborador.nome}}</li>
-        <li>Cargo: {{colaborador.cargo}}</li>
-        <li>Matricula: {{colaborador.matricula}}</li>
+        <li>Nome: {{ colaborador.nome }}</li>
+        <li>Cargo: {{ colaborador.cargo }}</li>
+        <li>Matricula: {{ colaborador.matricula }}</li>
     </ul>
     {% endif %}
 </div>
 {% endblock content %}
+

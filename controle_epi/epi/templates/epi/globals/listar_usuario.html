@@ -1,0 +1,37 @@
+{% extends "epi/index.html" %}
+
+{% block title %}Segurity EPI's{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h2>Relatório de Colaboradores</h2>
+    
+    <form method="get" style="width: 50%; margin-bottom: 20px;">
+        <input type="text" name="nome" placeholder="Pesquisar um Colaborador" value="{{ request.GET.nome }}" style="width: 100%;">
+        <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+    </form>
+    
+    <table class="table table-bordered table-sm" style="width: 50%;">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Cargo</th>
+                <th>Matricula</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for colaborador in colaboradores %}
+            <tr>
+                <td>{{ colaborador.nome }}</td>
+                <td>{{ colaborador.ca }}</td>
+                <td>{{ colaborador.validade }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">Nenhum colaborador encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

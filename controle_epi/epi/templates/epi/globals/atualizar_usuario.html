@@ -1,0 +1,66 @@
+{% extends "epi/index.html" %}
+
+{% block content %}
+
+{% if erro %}
+<div class="alert alert-danger alert-dismissible fade show">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <strong>Preencha todos os campos!</strong>
+</div>
+{% endif %}
+
+{% if colaborador %}
+<form action="{% url 'atualizar_usuario' colaborador.id %}" method="post">
+    {% csrf_token %}
+    <div class="form-group my-2">
+        <label for="nome">Nome</label>
+        <input class="form-control" type="text" name="nome" placeholder="Nome" value="{{ colaborador.nome }}">
+    </div>
+    
+    <div class="form-group my-2">
+        <label for="ca">Cargo</label>
+        <input class="form-control" type="text" name="cargo" placeholder="Cargo" value="{{ colaborador.cargo }}">
+    </div>
+    <div class="form-group my-2">
+        <label for="validade">Matricula</label>
+        <input class="form-control" type="text" name="matricula" placeholder="Matricula" value="{{ colaborador.matricula}}">
+    </div>
+    <div>
+        <input class="btn btn-success" type="submit" value="Enviar">
+    </div>
+</form>
+{% endif %}
+
+<!-- Barra de Pesquisa -->
+<form class="form-group my-2" method="get">
+    <input type="text" name="nome_item" placeholder="Pesquisar um Colaborador" value="{{ request.GET.nome_item }}" style="width: 100%;">
+    <button type="submit" class="btn btn-primary btn-sm">Pesquisar</button>
+</form>
+
+<!-- Tabela com Itens do Banco de Dados -->
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Cargo</th>
+                <th>Matricula</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in itens %}
+            <tr>
+                <td>{{ item.nome }}</td>
+                <td>{{ item.cargo }}</td>
+                <td>{{ item.matricula}}</td>
+                <td>
+                    <a href="{% url 'atualizar_usuario' item.id %}" class="btn btn-primary btn-sm">Editar</a>
+                    <a href="{% url 'excluir_usuario' item.id %}" class="btn btn-danger btn-sm">Deletar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

@@ -36,8 +36,12 @@ def cadastrar_epi(request):
 
 #Editar EPI
 def atualizar_epi(request, id=0):
-    if id == 0 and not request.GET.get('nome_item'): #FIXME Ajustar essa função... lembrando que.. .Quaando o usuário acessar a rota e o id for vazio. deve aparecer a tela com todos os dados. Se for um GET no campo de pesquisa e deve listar os items. Se for um post deve salvar
-        itens = Equipamento.objects.all()
+    if id == 0:
+        if request.method == 'GET' and request.GET.get('nome_item'):
+            nome_item = request.GET.get('nome_item')
+            itens = Equipamento.objects.filter(nome__icontains=nome_item)
+        else:
+            itens = Equipamento.objects.all()
         return render(request, 'epi/globals/atualizar.html', {'itens': itens})
     epi = get_object_or_404(Equipamento, id=id)
     if request.method == 'POST':
@@ -49,7 +53,7 @@ def atualizar_epi(request, id=0):
             epi.ca = ca
             epi.validade = validade
             epi.save()
-            return redirect('listar_epi')  # Certifique-se de que 'listar_epi' é o nome correto da sua URL
+            return redirect('listar_epi')
         else:
             return render(request, 'epi/globals/atualizar.html', {'equipamento': epi, 'erro': True})
     return render(request, 'epi/globals/atualizar.html', {'equipamento': epi})
@@ -58,10 +62,10 @@ def atualizar_epi(request, id=0):
 def excluir_epi(request, id):
     epi = Equipamento.objects.get(id=id)
     epi.delete()
-    return redirect(listar_epi)
+    return redirect(atualizar_epi)
 
 #Listar Usuários
-def listar_usuarios(request):
+def listar_usuario(request):
     values = Colaborador.objects.all()
     nome = request.GET.get('nome')
     cargo = request.GET.get('cargo')
@@ -85,5 +89,35 @@ def cadastrar_usuario(request):
             cargo=cargo,
             matricula=matricula
         )
-        return render(request, 'epi/globals/cadastrar_usuario.html', {'usuario':usuario})
+        return render(request, 'epi/globals/cadastrar_usuario.html', {'colaborador': usuario})
     return render(request, 'epi/globals/cadastrar_usuario.html')
+#Editar Usuários
+def atualizar_usuario(request, id=0):
+    if id == 0:
+        if request.method == 'GET' and request.GET.get('nome_item'):
+            nome_item = request.GET.get('nome_item')
+            itens = Colaborador.objects.filter(nome__icontains=nome_item)
+        else:
+            itens = Colaborador.objects.all()
+        return render(request, 'epi/globals/atualizar_usuario.html', {'itens': itens})
+    usuario = get_object_or_404(Colaborador, id=id)
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        cargo = request.POST.get('cargo')
+        matricula = request.POST.get('matricula')
+        if nome and cargo and matricula:
+            usuario.nome = nome
+            usuario.cargo = cargo
+            usuario.matricula = matricula
+            usuario.save()
+            return redirect('listar_usuarios')
+        else:
+            return render(request, 'epi/globals/atualizar_usuario.html', {'usuario': usuario, 'erro': True})
+    return render(request, 'epi/globals/atualizar_usuario.html', {'usuario': usuario})
+
+#Excluir Usuários
+def excluir_usuario(request, id):    
+    usuario = Colaborador.objects.get(id=id)
+    usuario.delete()
+    return redirect(atualizar_usuario)      
+
