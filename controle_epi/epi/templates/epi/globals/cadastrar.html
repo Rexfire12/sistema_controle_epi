@@ -3,21 +3,27 @@
 {% block title %}Segurity EPI's{% endblock title %}
 
 {% block content %}
-<div class="container" style="border: 1px solid #ccc; padding: 10px; border-radius: 5px; width: 300px;">
+{% if erro %}
+<div class="alert alert-success alert-dismissible">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <strong>Equipamento Salvo com Sucesso!</strong> 
+    {% endif %}
+  </div>
+<div class="container" style="border: 2px solid #ccc; padding: 20px; border-radius: 5px; width: 400px; margin-top: 300px">
     <form action="/cadastrar/" method="post" class="registration-form">
         {% csrf_token %}
-        <h2>Cadastro de EPI</h2>
-        <div style="margin-bottom: 10px;">
+       <div style="margin-bottom: 20px; text-align: center; color: blue" > <h2>Cadastrar Equipamento</h2></div>
+        <div style="margin-bottom: 20px;">
             <label for="nome" style="display: inline-block; width: 70px;">Nome:</label>
             <input type="text" id="nome" name="nome" required style="width: calc(100% - 80px);">
         </div>
-        <div style="margin-bottom: 10px;">
+        <div style="margin-bottom: 20px;">
             <label for="ca" style="display: inline-block; width: 70px;">C.A.:</label>
             <input type="text" id="ca" name="ca" required style="width: calc(100% - 80px);">
         </div>
-        <div style="margin-bottom: 10px;">
+        <div style="margin-bottom: 20px;">
             <label for="validade" style="display: inline-block; width: 70px;">Validade:</label>
-            <input type="text" id="validade" name="validade" required style="width: calc(100% - 80px);">
+            <input type="date" id="validade" name="validade" required style="width: calc(100% - 80px);">
         </div>
         <button class="btn btn-success" type="submit">Salvar</button>
     </form>
@@ -25,7 +31,7 @@
     <ul>
         <li>Nome: {{equipamento.nome}}</li>
         <li>C.A.: {{equipamento.ca}}</li>
-        <li>Validade: {{equipamento.validade}}</li>
+        <li>Validade: {{equipamento.validade|date:'d/m/Y'}}</li>
     </ul>
     {% endif %}
 </div>

@@ -6,7 +6,7 @@
 <div class="container">
     <h2>Relatório de Colaboradores</h2>
     
-    <form method="get" style="width: 50%; margin-bottom: 20px;">
+    <form method="get" style="width: 50%; margin-bottom: 20px;  ">
         <input type="text" name="nome" placeholder="Pesquisar um Colaborador" value="{{ request.GET.nome }}" style="width: 100%;">
         <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
     </form>
@@ -23,8 +23,8 @@
             {% for colaborador in colaboradores %}
             <tr>
                 <td>{{ colaborador.nome }}</td>
-                <td>{{ colaborador.ca }}</td>
-                <td>{{ colaborador.validade }}</td>
+                <td>{{ colaborador.cargo }}</td>
+                <td>{{ colaborador.matricula }}</td>
             </tr>
             {% empty %}
             <tr>

@@ -3,19 +3,25 @@
 {% block title %}Segurity EPI's{% endblock title %}
 
 {% block content %}
-<div class="container" style="border: 1px solid #ccc; padding: 10px; border-radius: 5px; width: 300px;">
-    <form action="/cadastrar_usuario/" method="post" class="registration-form">
+{% if erro %}
+<div class="alert alert-success alert-dismissible">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <strong>Colaborador Salvo com Sucesso!</strong> 
+    {% endif %}
+  </div>
+<div class="container" style="border: 2px solid #ccc; padding: 20px; border-radius: 5px; width: 400px; margin-top: 300px">
+    <form action="/cadastrar_colaborador/" method="post" class="registration-form">
         {% csrf_token %}
-        <h2>Cadastro de Colaborador</h2>
-        <div style="margin-bottom: 10px;">
+       <div style="margin-bottom: 20px; text-align: center; color: blue" > <h2>Cadastrar Colaborador</h2></div>
+        <div style="margin-bottom: 20px;">
             <label for="nome" style="display: inline-block; width: 70px;">Nome:</label>
             <input type="text" id="nome" name="nome" required style="width: calc(100% - 80px);">
         </div>
-        <div style="margin-bottom: 10px;">
+        <div style="margin-bottom: 20px;">
             <label for="cargo" style="display: inline-block; width: 70px;">Cargo:</label>
             <input type="text" id="cargo" name="cargo" required style="width: calc(100% - 80px);">
         </div>
-        <div style="margin-bottom: 10px;">
+        <div style="margin-bottom: 20px;">
             <label for="matricula" style="display: inline-block; width: 70px;">Matricula:</label>
             <input type="text" id="matricula" name="matricula" required style="width: calc(100% - 80px);">
         </div>

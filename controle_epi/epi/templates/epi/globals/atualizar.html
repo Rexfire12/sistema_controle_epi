@@ -1,5 +1,7 @@
 {% extends "epi/index.html" %}
 
+{% block title %}Segurity EPI's{% endblock title %}
+
 {% block content %}
 
 {% if erro %}
@@ -23,7 +25,7 @@
     </div>
     <div class="form-group my-2">
         <label for="validade">Validade</label>
-        <input class="form-control" type="date" name="validade" placeholder="Validade" value="{{ equipamento.validade|date:'Y-m-d' }}">
+        <input class="form-control" type="date" name="validade" placeholder="Validade" value="{{ equipamento.validade|date:'d/m/Y' }}">
     </div>
     <div>
         <input class="btn btn-success" type="submit" value="Enviar">
@@ -32,14 +34,14 @@
 {% endif %}
 
 <!-- Barra de Pesquisa -->
-<form class="form-group my-2" method="get">
+<form class="form-group my-2" method="get" style="width: 50%;">
     <input type="text" name="nome_item" placeholder="Pesquisar um EPI" value="{{ request.GET.nome_item }}" style="width: 100%;">
     <button type="submit" class="btn btn-primary btn-sm">Pesquisar</button>
 </form>
 
 <!-- Tabela com Itens do Banco de Dados -->
 <div class="table-responsive">
-    <table class="table table-bordered">
+    <table class="table table-bordered" style="width: 50%;">
         <thead>
             <tr>
                 <th>Nome</th>

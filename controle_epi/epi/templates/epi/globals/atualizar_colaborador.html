@@ -10,10 +10,10 @@
 {% endif %}
 
 {% if colaborador %}
-<form action="{% url 'atualizar_usuario' colaborador.id %}" method="post">
+<form action="{% url 'atualizar_colaborador' colaborador.id %}" method="post" >
     {% csrf_token %}
     <div class="form-group my-2">
-        <label for="nome">Nome</label>
+        <label  for="nome" >Nome</label>
         <input class="form-control" type="text" name="nome" placeholder="Nome" value="{{ colaborador.nome }}">
     </div>
     
@@ -32,14 +32,14 @@
 {% endif %}
 
 <!-- Barra de Pesquisa -->
-<form class="form-group my-2" method="get">
+<form class="form-group my-2" method="get" style="width: 50%;">
     <input type="text" name="nome_item" placeholder="Pesquisar um Colaborador" value="{{ request.GET.nome_item }}" style="width: 100%;">
     <button type="submit" class="btn btn-primary btn-sm">Pesquisar</button>
 </form>
 
 <!-- Tabela com Itens do Banco de Dados -->
 <div class="table-responsive">
-    <table class="table table-bordered">
+    <table class="table table-bordered" style="width: 50%;">
         <thead>
             <tr>
                 <th>Nome</th>
@@ -55,8 +55,8 @@
                 <td>{{ item.cargo }}</td>
                 <td>{{ item.matricula}}</td>
                 <td>
-                    <a href="{% url 'atualizar_usuario' item.id %}" class="btn btn-primary btn-sm">Editar</a>
-                    <a href="{% url 'excluir_usuario' item.id %}" class="btn btn-danger btn-sm">Deletar</a>
+                    <a href="{% url 'atualizar_colaborador' item.id %}" class="btn btn-primary btn-sm">Editar</a>
+                    <a href="{% url 'excluir_colaborador' item.id %}" class="btn btn-danger btn-sm">Deletar</a>
                 </td>
             </tr>
             {% endfor %}

@@ -8,8 +8,10 @@ urlpatterns = [
     path('atualizar/', views.atualizar_epi, name='atualizar_epi_tela'), #FIXME Ajustar essa linha
     path('atualizar/<int:id>/', views.atualizar_epi, name='atualizar_epi'),
     path('excluir/<int:id>/', views.excluir_epi, name='excluir_epi'),
-    path('listar_usuario/', views.listar_usuario, name='listar_usuario'),
-    path('cadastrar_usuario/', views.cadastrar_usuario, name='cadastrar_usuario'),
-    path('atualizar_usuario/<int:id>/', views.atualizar_usuario, name='atualizar_usuario'),
-    path('excluir_usuario/<int:id>/', views.excluir_usuario, name='excluir_usuario'),
+    #URLs para o modulo de colaboradores
+    path('listar_colaborador/', views.listar_colaborador, name='listar_colaborador'),
+    path('cadastrar_colaborador/', views.cadastrar_colaborador, name='cadastrar_colaborador'),
+    path('atualizar_colaborador/', views.atualizar_colaborador, name='atualizar_colaborador_tela'),
+    path('atualizar_colaborador/<int:id>/', views.atualizar_colaborador, name='atualizar_colaborador'),
+    path('excluir_colaborador/<int:id>/', views.excluir_colaborador, name='excluir_colaborador'),
 ]

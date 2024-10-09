@@ -5,7 +5,7 @@ from django.db import models
 class Equipamento(models.Model):
         nome = models.CharField(max_length=100)
         ca = models.IntegerField(max_length=100)
-        validade = models.TextField(max_length=100)
+        validade = models.DateField()
         
         
         def __str__(self):

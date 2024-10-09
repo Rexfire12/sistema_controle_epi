@@ -31,7 +31,7 @@ def cadastrar_epi(request):
             ca=ca,
             validade=validade
         )
-        return render(request, 'epi/globals/cadastrar.html', {'equipamento': epi})
+        return render(request, 'epi/globals/cadastrar.html', {'equipamento': epi,'erro': True})
     return render(request, 'epi/globals/cadastrar.html')
 
 #Editar EPI
@@ -53,19 +53,19 @@ def atualizar_epi(request, id=0):
             epi.ca = ca
             epi.validade = validade
             epi.save()
-            return redirect('listar_epi')
+            return redirect(atualizar_epi)
         else:
             return render(request, 'epi/globals/atualizar.html', {'equipamento': epi, 'erro': True})
     return render(request, 'epi/globals/atualizar.html', {'equipamento': epi})
 
-#Excluir
+#Excluir EPI
 def excluir_epi(request, id):
     epi = Equipamento.objects.get(id=id)
     epi.delete()
     return redirect(atualizar_epi)
 
-#Listar Usuários
-def listar_usuario(request):
+#Listar Colaboradores
+def listar_colaborador(request):
     values = Colaborador.objects.all()
     nome = request.GET.get('nome')
     cargo = request.GET.get('cargo')
@@ -76,48 +76,49 @@ def listar_usuario(request):
         values = values.filter(cargo__icontains=cargo)
     if matricula:
         values = values.filter(matricula__icontains=matricula)
-    return render(request, 'epi/globals/listar_usuario.html', {'usuario': values})
+    return render(request, 'epi/globals/listar_colaborador.html', {'colaboradores': values})
 
-#Cadastrar Usuários
-def cadastrar_usuario(request):
+#Cadastrar Colaboradores
+def cadastrar_colaborador(request):
     if request.method == 'POST':
         nome = request.POST.get('nome')
         cargo = request.POST.get('cargo')
         matricula = request.POST.get('matricula')
-        usuario = Colaborador.objects.create(
+        colaborador = Colaborador.objects.create(
             nome=nome,
             cargo=cargo,
             matricula=matricula
         )
-        return render(request, 'epi/globals/cadastrar_usuario.html', {'colaborador': usuario})
-    return render(request, 'epi/globals/cadastrar_usuario.html')
-#Editar Usuários
-def atualizar_usuario(request, id=0):
+        return render(request, 'epi/globals/cadastrar_colaborador.html', {'colaborador': colaborador, 'erro': True})
+    return render(request, 'epi/globals/cadastrar_colaborador.html')
+
+#Editar Colaboradores
+def atualizar_colaborador(request, id=0):
     if id == 0:
         if request.method == 'GET' and request.GET.get('nome_item'):
             nome_item = request.GET.get('nome_item')
             itens = Colaborador.objects.filter(nome__icontains=nome_item)
         else:
             itens = Colaborador.objects.all()
-        return render(request, 'epi/globals/atualizar_usuario.html', {'itens': itens})
-    usuario = get_object_or_404(Colaborador, id=id)
+        return render(request, 'epi/globals/atualizar_colaborador.html', {'itens': itens})
+    colaborador = get_object_or_404(Colaborador, id=id)
     if request.method == 'POST':
         nome = request.POST.get('nome')
         cargo = request.POST.get('cargo')
         matricula = request.POST.get('matricula')
         if nome and cargo and matricula:
-            usuario.nome = nome
-            usuario.cargo = cargo
-            usuario.matricula = matricula
-            usuario.save()
-            return redirect('listar_usuarios')
+            colaborador.nome = nome
+            colaborador.cargo = cargo
+            colaborador.matricula = matricula
+            colaborador.save()
+            return redirect(atualizar_colaborador)
         else:
-            return render(request, 'epi/globals/atualizar_usuario.html', {'usuario': usuario, 'erro': True})
-    return render(request, 'epi/globals/atualizar_usuario.html', {'usuario': usuario})
+            return render(request, 'epi/globals/atualizar_colaborador.html', {'colaborador': colaborador, 'erro': True})
+    return render(request, 'epi/globals/atualizar_colaborador.html', {'colaborador': colaborador})
 
-#Excluir Usuários
-def excluir_usuario(request, id):    
-    usuario = Colaborador.objects.get(id=id)
-    usuario.delete()
-    return redirect(atualizar_usuario)      
+#Excluir Colaboradores
+def excluir_colaborador(request, id):    
+    colaborador = Colaborador.objects.get(id=id)
+    colaborador.delete()
+    return redirect(atualizar_colaborador)      
 
