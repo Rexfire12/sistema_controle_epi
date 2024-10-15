@@ -1,0 +1,47 @@
+{% extends "epi/index.html" %}
+
+{% block title %}Segurity EPI's{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h2>Relatório de Emprestimo</h2>
+    
+    <form method="get" style="width: 50%; margin-bottom: 20px;">
+        <input type="text" name="nome" placeholder="Pesquisar um Colaborador" value="{{ request.GET.nome }}" style="width: 100%;">
+        <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+    </form>
+    
+    <table class="table table-bordered table-sm" style="width: 50%; allign: center">
+        <thead>
+            <tr>
+                <th>Equipamento</th>
+                <th>Colaborador</th>
+                <th>Data de Emprestimo</th>
+                <th>Data de Previsão de Devolução</th>
+                <th>Status</th>
+                <th>Condições do Equipamento no Emprestimo</th>
+                <th>Data de Devolução</th>
+                <th>Observação na Devolução/Perda</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for acao in acoes %}
+            <tr>
+                <td>{{ acao.equipamento}}</td>
+                <td>{{ acao.colaborador }}</td>
+                <td>{{ acao.data_emprestimo }}</td>
+                <td>{{ acao.data_previsao_devolucao }}</td>
+                <td>{{ acao.status }}</td>
+                <td>{{ acao.condicoes }}</td>
+                <td>{{ acao.data_devolucao }}</td>
+                <td>{{ acao.observacao }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">Nenhum equipamento encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

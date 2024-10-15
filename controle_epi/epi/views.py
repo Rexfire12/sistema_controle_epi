@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from epi.models import Equipamento, Colaborador
+from epi.models import Equipamento, Colaborador, Registro
 
 
 # Create your views here.
@@ -122,3 +122,59 @@ def excluir_colaborador(request, id):
     colaborador.delete()
     return redirect(atualizar_colaborador)      
 
+#Regitrar Ação
+def registrar_acao(request):
+    if request.method == 'POST':
+        equipamento = request.POST.get('equipamento')
+        colaborador= request.POST.get('colaborador')
+        data_emprestimo = request.POST.get('data_emprestimo')
+        previsaodevolucao = request.POST.get('previsaodevolucao')
+        condicoes = request.POST.get('condicoes')
+        data_devolucao = request.POST.get('data_devolucao')
+        observacao = request.POST.get('observacao')
+
+        # Verificar se equipamento e colaborador existem
+        equipamento = get_object_or_404(Equipamento, nome=equipamento)
+        colaborador = get_object_or_404(Colaborador, nome=colaborador)
+
+        # Criar o registro
+        acao = Registro.objects.create(
+            equipamento=equipamento,
+            colaborador=colaborador,
+            data_emprestimo=data_emprestimo,
+            previsao_devolucao=previsaodevolucao,
+            condicoes=condicoes,
+            data_devolucao=data_devolucao,
+            observacao=observacao
+        )
+        return render(request, 'epi/globals/registrar_acao.html', {'acao': acao, 'erro': True})
+
+    return render(request, 'epi/globals/registrar_acao.html', {'acao': None})
+
+#Listar Ações
+def listar_acao(request):
+    values = Registro.objects.all()
+    colaborador = request.GET.get('colaborador')
+    equipamento = request.GET.get('equipamento')
+    data_emprestimo = request.GET.get('data_emprestimo')
+    previsaodevolucao = request.GET.get('previsaodevolucao')
+    condicoes = request.GET.get('condicoes')
+    data_devolucao = request.GET.get('data_devolucao')
+    observacao = request.GET.get('observacao')
+
+    if colaborador:
+        values = values.filter(colaborador__icontains=colaborador)
+    if equipamento:
+        values = values.filter(equipamento__icontains=equipamento)
+    if data_emprestimo:
+        values = values.filter(data_emprestimo__icontains=data_emprestimo)
+    if previsaodevolucao:
+        values = values.filter(previsao_devolucao__icontains=previsaodevolucao)
+    if condicoes:
+        values = values.filter(condicoes__icontains=condicoes)
+    if data_devolucao:
+        values = values.filter(data_devolucao__icontains=data_devolucao)
+    if observacao:
+        values = values.filter(observacao__icontains=observacao)
+    
+    return render(request, 'epi/globals/listar_acao.html', {'acoes': values})

@@ -1,7 +1,10 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from . import views
 
+
 urlpatterns = [
+    #URLs para o modulo de epi
     path('', views.index, name='index'),
     path('listar/', views.listar_epi, name='listar_epi'),
     path('cadastrar/', views.cadastrar_epi, name='cadastrar_epi'),
@@ -14,4 +17,10 @@ urlpatterns = [
     path('atualizar_colaborador/', views.atualizar_colaborador, name='atualizar_colaborador_tela'),
     path('atualizar_colaborador/<int:id>/', views.atualizar_colaborador, name='atualizar_colaborador'),
     path('excluir_colaborador/<int:id>/', views.excluir_colaborador, name='excluir_colaborador'),
+    #URL para o modulo de registrar ação
+    path('registrar_acao/', views.registrar_acao, name='registrar_acao'),
+    path('listar_acao/', views.listar_acao, name='listar_acao'),
+    #Loguin e Logout
+    path('login/', auth_views.LoginView.as_view(template_name='epi/globals/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]

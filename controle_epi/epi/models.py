@@ -18,3 +18,14 @@ class Colaborador(models.Model):
             
         def __str__(self):
                 return f"Colaborador: {self.nome , self.cargo, self.matricula}"
+        
+class Registro(models.Model):
+        equipamento = models.ForeignKey(Equipamento, on_delete=models.CASCADE)
+        colaborador = models.ForeignKey(Colaborador, on_delete=models.CASCADE)
+        data_emprestimo = models.DateField()
+        previsao_devolucao = models.DateField()	
+        condicoes = models.CharField(max_length=100)
+        data_devolucao = models.DateField()
+        observacao = models.CharField(max_length=100)
+        def __str__(self):
+                return f"Registro: {self.equipamento, self.colaborador, self.data_emprestimo, self.previsao_devolucao, self.condicoes, self.data_devolucao, self.observacao}"
