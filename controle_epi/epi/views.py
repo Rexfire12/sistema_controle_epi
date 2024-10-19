@@ -128,7 +128,8 @@ def registrar_acao(request):
         equipamento = request.POST.get('equipamento')
         colaborador= request.POST.get('colaborador')
         data_emprestimo = request.POST.get('data_emprestimo')
-        previsaodevolucao = request.POST.get('previsaodevolucao')
+        previsaodevolucao = request.POST.get('previsao_devolucao')
+        status = request.POST.get('status')
         condicoes = request.POST.get('condicoes')
         data_devolucao = request.POST.get('data_devolucao')
         observacao = request.POST.get('observacao')
@@ -143,6 +144,7 @@ def registrar_acao(request):
             colaborador=colaborador,
             data_emprestimo=data_emprestimo,
             previsao_devolucao=previsaodevolucao,
+            status=status,
             condicoes=condicoes,
             data_devolucao=data_devolucao,
             observacao=observacao
@@ -158,9 +160,11 @@ def listar_acao(request):
     equipamento = request.GET.get('equipamento')
     data_emprestimo = request.GET.get('data_emprestimo')
     previsaodevolucao = request.GET.get('previsaodevolucao')
+    status = request.GET.get('status')
     condicoes = request.GET.get('condicoes')
     data_devolucao = request.GET.get('data_devolucao')
     observacao = request.GET.get('observacao')
+    
 
     if colaborador:
         values = values.filter(colaborador__icontains=colaborador)
@@ -170,11 +174,12 @@ def listar_acao(request):
         values = values.filter(data_emprestimo__icontains=data_emprestimo)
     if previsaodevolucao:
         values = values.filter(previsao_devolucao__icontains=previsaodevolucao)
+    if status:
+        values = values.filter(status__icontains=status)
     if condicoes:
         values = values.filter(condicoes__icontains=condicoes)
     if data_devolucao:
         values = values.filter(data_devolucao__icontains=data_devolucao)
     if observacao:
         values = values.filter(observacao__icontains=observacao)
-    
     return render(request, 'epi/globals/listar_acao.html', {'acoes': values})
