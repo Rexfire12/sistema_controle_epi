@@ -183,3 +183,37 @@ def listar_acao(request):
     if observacao:
         values = values.filter(observacao__icontains=observacao)
     return render(request, 'epi/globals/listar_acao.html', {'acoes': values})
+
+#Editar Ações
+def atualizar_acao(request, id=0):
+    if id == 0:
+        if request.method == 'GET' and request.GET.get('nome_item'):
+            nome_item = request.GET.get('nome_item')
+            itens = Equipamento.objects.filter(nome__icontains=nome_item)
+        else:
+            itens = Equipamento.objects.all()
+        return render(request, 'epi/globals/atualizar_acao.html', {'itens': itens})
+    epi = get_object_or_404(Equipamento, id=id)
+    if request.method == 'POST':
+        equipamento = request.POST.get('equipamento')
+        colaborador = request.POST.get('colaborador')
+        data_emprestimo = request.POST.get('data_emprestimo')
+        previsaodevolucao = request.POST.get('previsao_devolucao')
+        status = request.POST.get('status')
+        condicoes = request.POST.get('condicoes')
+        data_devolucao = request.POST.get('data_devolucao')
+        observacao = request.POST.get('observacao')
+        if equipamento and colaborador and data_emprestimo and previsaodevolucao and status and condicoes and data_devolucao and observacao:
+            epi.equipamento = equipamento
+            epi.colaborador = colaborador
+            epi.data_emprestimo = data_emprestimo
+            epi.previsao_devolucao = previsaodevolucao
+            epi.status = status
+            epi.condicoes = condicoes
+            epi.data_devolucao = data_devolucao
+            epi.observacao = observacao
+            epi.save()
+            return redirect(atualizar_acao)
+        else:
+            return render(request, 'epi/globals/atualizar_acao.html', {'equipamento': epi, 'erro': True})
+    return render(request, 'epi/globals/atualizar_acao.html', {'equipamento': epi})

@@ -20,6 +20,8 @@ urlpatterns = [
     #URL para o modulo de registrar ação
     path('registrar_acao/', views.registrar_acao, name='registrar_acao'),
     path('listar_acao/', views.listar_acao, name='listar_acao'),
+    path('atualizar_acao/', views.atualizar_acao, name='atualizar_acao_tela'),
+    path('atualizar_acao/<int:id>/', views.atualizar_acao, name='atualizar_acao'),
     #Loguin e Logout
     path('login/', auth_views.LoginView.as_view(template_name='epi/globals/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
