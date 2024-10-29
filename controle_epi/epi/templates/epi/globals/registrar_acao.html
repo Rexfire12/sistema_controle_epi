@@ -1,52 +1,62 @@
 {% extends "epi/index.html" %}
 
 {% block content %}
-
 <div class="container" style="border: 2px solid #ccc; padding: 20px; border-radius: 5px; width: 400px; margin-top: 50px;">
     <form action="/registrar_acao/" method="post" class="registration-form">
-      {% csrf_token %}
-      <div style="margin-bottom: 20px;">
-        <label for="equipamento">Equipamento</label><br>
-        <input type="text" id="equipamento" name="equipamento" required style="width: 100%;">
-      </div>
-      <div style="margin-bottom: 20px;">
-        <label for="colaborador">Colaborador</label><br>
-        <input type="text" id="colaborador" name="colaborador" required style="width: 100%;">
-      </div>
-      <div style="margin-bottom: 20px;">
-        <label for="dataemprestimo">Data do Empréstimo</label><br>
-        <input type="date" id="dataemprestimo" name="data_emprestimo" required style="width: 100%;">
-      </div>
-      <div style="margin-bottom: 20px;">
-        <label for="previsao_devolucao">Data de Previsão Devolução</label><br>
-        <input type="date" id="previsaodevolucao" name="previsao_devolucao" required style="width: 100%;">
-      </div>
-      <div class="status-bar" style="margin-bottom: 50px;">
-        <label for="status-dropdown">Status</label><br>
-        <select id="status" name="status" style="width: 100%;">
-          <option value="emprestado">Emprestado</option>
-          <option value="em-uso">Em Uso</option>
-          <option value="fornecido">Fornecido</option>
-          <option value="devolvido">Devolvido</option>
-          <option value="danificado">Danificado</option>
-          <option value="perdido">Perdido</option>
-        </select>
-      </div>
-      <div style="margin-bottom: 20px;">
-        <label for="condicoes">Condições do Equipamento no Emprestimo</label><br>
-        <input type="text" id="condicoes" name="condicoes" required style="width: 100%;">
-      </div>
-      <div style="margin-bottom: 20px;">
-        <label for="datadevolucao">Data de Devolução</label><br>
-        <input type="date" id="datadevolucao" name="data_devolucao" required style="width: 100%;">
-      </div>
-      <div style="margin-bottom: 20px;">
-        <label for="observacao">Observação na Devolução/Perda</label><br>
-        <input type="text" id="observacao" name="observacao" required style="width: 100%;">
-      </div>
-      <button class="btn btn-success" type="submit">Salvar</button>
+        {% csrf_token %}
+        <div style="margin-bottom: 20px;">
+            <label for="equipamento">Equipamento</label><br>
+            <input type="text" id="equipamento" name="equipamento" required style="width: 100%;">
+        </div>
+        <div style="margin-bottom: 20px;">
+            <label for="colaborador">Colaborador</label><br>
+            <input type="text" id="colaborador" name="colaborador" required style="width: 100%;">
+        </div>
+        <div style="margin-bottom: 20px;">
+            <label for="dataemprestimo">Data do Empréstimo</label><br>
+            <input type="date" id="dataemprestimo" name="data_emprestimo" required style="width: 100%;">
+        </div>
+        <div style="margin-bottom: 20px;">
+            <label for="previsao_devolucao">Data de Previsão Devolução</label><br>
+            <input type="date" id="previsaodevolucao" name="previsao_devolucao" required style="width: 100%;">
+        </div>
+        <div class="status-bar" style="margin-bottom: 50px;">
+            <label for="status-dropdown">Status</label><br>
+            <select id="status" name="status" style="width: 100%;" onchange="checkStatus()">
+                <option value="emprestado">Emprestado</option>
+                <option value="em-uso">Em Uso</option>
+                <option value="fornecido">Fornecido</option>
+                <option value="devolvido">Devolvido</option>
+                <option value="danificado">Danificado</option>
+                <option value="perdido">Perdido</option>
+            </select>
+        </div>
+        <div id="devolucao-section" style="margin-bottom: 20px; display: none;">
+            <label for="datadevolucao">Data de Devolução</label><br>
+            <input type="date" id="datadevolucao" name="data_devolucao" style="width: 100%;">
+        </div>
+        <div id="observacao-section" style="margin-bottom: 20px; display: none;">
+            <label for="observacao">Observação na Devolução/Perda</label><br>
+            <input type="text" id="observacao" name="observacao" style="width: 100%;">
+        </div>
+        <button class="btn btn-success" type="submit">Salvar</button>
     </form>
-  </div>
-  
+</div>
 
+<script>
+    function checkStatus() {
+        const status = document.getElementById('status').value;
+        const devolucaoSection = document.getElementById('devolucao-section');
+        const observacaoSection = document.getElementById('observacao-section');
+        
+        if (status === 'devolvido' || status === 'danificado' || status === 'perdido') {
+            devolucaoSection.style.display = 'block';
+            observacaoSection.style.display = 'block';
+        } else {
+            devolucaoSection.style.display = 'none';
+            observacaoSection.style.display = 'none';
+        }
+    }
+    document.addEventListener('DOMContentLoaded', checkStatus);
+</script>
 {% endblock content %}

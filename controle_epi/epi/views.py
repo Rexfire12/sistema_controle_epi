@@ -185,7 +185,6 @@ def listar_acao(request):
         values = values.filter(data_devolucao__icontains=data_devolucao)
     if observacao:
         values = values.filter(observacao__icontains=observacao)
-<<<<<<< HEAD
     filtered_values = values.values('equipamento__nome', 'colaborador__nome', 'data_emprestimo', 'previsao_devolucao', 'status', 'condicoes', 'data_devolucao', 'observacao')if values.exists() else []
     return render(request, 'epi/globals/listar_acao.html', {'acoes': filtered_values})
 #Atualizar Ações
@@ -198,34 +197,15 @@ def atualizar_acao(request, id=0):
             acoes = Registro.objects.all()
         return render(request, 'epi/globals/atualizar_acao.html', {'acoes': acoes})
     acao = get_object_or_404(Registro, id=id)
-=======
-    return render(request, 'epi/globals/listar_acao.html', {'acoes': values})
-
-#Editar Ações
-def atualizar_acao(request, id=0):
-    if id == 0:
-        if request.method == 'GET' and request.GET.get('nome_item'):
-            nome_item = request.GET.get('nome_item')
-            itens = Equipamento.objects.filter(nome__icontains=nome_item)
-        else:
-            itens = Equipamento.objects.all()
-        return render(request, 'epi/globals/atualizar_acao.html', {'itens': itens})
-    epi = get_object_or_404(Equipamento, id=id)
->>>>>>> 57783c8b0168f365d2a802178f4c0f61ecd41bf5
     if request.method == 'POST':
         equipamento = request.POST.get('equipamento')
         colaborador = request.POST.get('colaborador')
         data_emprestimo = request.POST.get('data_emprestimo')
-<<<<<<< HEAD
         previsao_devolucao = request.POST.get('previsao_devolucao')
-=======
-        previsaodevolucao = request.POST.get('previsao_devolucao')
->>>>>>> 57783c8b0168f365d2a802178f4c0f61ecd41bf5
         status = request.POST.get('status')
         condicoes = request.POST.get('condicoes')
         data_devolucao = request.POST.get('data_devolucao')
         observacao = request.POST.get('observacao')
-<<<<<<< HEAD
         if equipamento and colaborador and data_emprestimo and previsao_devolucao and status and condicoes and data_devolucao and observacao:
             equipamento = get_object_or_404(Equipamento, nome=equipamento)
             colaborador = get_object_or_404(Colaborador, nome=colaborador) 
@@ -248,19 +228,3 @@ def excluir_acao(request, id=0):
     acao = Registro.objects.get(id=id)
     acao.delete()
     return redirect(listar_acao)
-=======
-        if equipamento and colaborador and data_emprestimo and previsaodevolucao and status and condicoes and data_devolucao and observacao:
-            epi.equipamento = equipamento
-            epi.colaborador = colaborador
-            epi.data_emprestimo = data_emprestimo
-            epi.previsao_devolucao = previsaodevolucao
-            epi.status = status
-            epi.condicoes = condicoes
-            epi.data_devolucao = data_devolucao
-            epi.observacao = observacao
-            epi.save()
-            return redirect(atualizar_acao)
-        else:
-            return render(request, 'epi/globals/atualizar_acao.html', {'equipamento': epi, 'erro': True})
-    return render(request, 'epi/globals/atualizar_acao.html', {'equipamento': epi})
->>>>>>> 57783c8b0168f365d2a802178f4c0f61ecd41bf5

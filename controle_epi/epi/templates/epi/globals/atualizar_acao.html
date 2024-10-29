@@ -11,26 +11,16 @@
 </div>
 {% endif %}
 
-<<<<<<< HEAD
 {% if acao %}
 <form action="{% url 'atualizar_acao' acao.id %}" method="post">
     {% csrf_token %}
     <div class="form-group my-2">
         <label for="equipamento">Equipamento</label>
         <input class="form-control" type="text" name="acao.equipamento" placeholder="equipamento" value="{{ acao.equipamento.nome }}">
-=======
-{% if equipamento %}
-<form action="{% url 'atualizar_acao' equipamento.id %}" method="post">
-    {% csrf_token %}
-    <div class="form-group my-2">
-        <label for="Equipamento">Equipamento</label>
-        <input class="form-control" type="text" name="Equipamento" placeholder="Equipamento" value="{{ registro.equipamento }}">
->>>>>>> 57783c8b0168f365d2a802178f4c0f61ecd41bf5
     </div>
     
     <div class="form-group my-2">
         <label for="colaborador">Colaborador</label>
-<<<<<<< HEAD
         <input class="form-control" type="text" name="colaborador" placeholder="Colaborador" value="{{ acao.colaborador.nome }}">
     </div>
     <div class="form-group my-2">
@@ -41,48 +31,44 @@
         <label for="previsao_devolucao">Data de Previsão Devolução</label>
         <input class="form-control" type="date" name="previsao_devolucao" placeholder="Data de Previsão Devolução" value="{{ acao.previsao_devolucao|date:'d/m/Y' }}">
     </div>
+    <div class="status-bar" style="margin-bottom: 50px;">
+        <label for="status-dropdown">Status</label><br>
+        <select id="status" name="status" style="width: 100%;" onchange="checkStatus()">
+          <option value="emprestado">Emprestado</option>
+          <option value="em-uso">Em Uso</option>
+          <option value="fornecido">Fornecido</option>
+          <option value="devolvido">Devolvido</option> 
+          <option value="danificado">Danificado</option> 
+          <option value="perdido">Perdido</option>
+        </select>
+      </div>
     <div class="form-group my-2">
-        <label for="status">Status</label>
-        <input class="form-control" type="text" name="status" placeholder="Status" value="{{ acao.status }}">
-    </div>
-    <div class="form-group my-2">
-        <label for="condicoes">Condições</label>
+        <label for="condicoes">Condições do Equipamento no Empréstimo</label>
         <input class="form-control" type="text" name="condicoes" placeholder="Condições" value="{{ acao.condicoes}}">
     </div>
-    <div class="form-group my-2">
+    
+    <div id="devolucao-section" class="form-group my-2">
         <label for="acao.data_devolucao">Data de Devolução</label>
         <input class="form-control" type="date" name="data_devolucao" placeholder="Data de Devolução" value="{{ acao.data_devolucao|date:'d/m/Y' }}">
     </div>
-    <div class="form-group my-2">
+    <div id="observacao-section" class="form-group my-2">
         <label for="observacao">Observação</label>
         <input class="form-control" type="text" name="observacao" placeholder="Observação" value="{{ acao.observacao }}">
-=======
-        <input class="form-control" type="text" name="colaborador" placeholder="Colaborador" value="{{registro.colaborador}}">
     </div>
-    <div class="form-group my-2">
-        <label for="data_emprestimo">Data do Empréstimo</label>
-        <input class="form-control" type="date" name="data_emprestimo" placeholder="Data do Empréstimo" value="{{ registro.data_emprestimo|date:'d/m/Y' }}">
->>>>>>> 57783c8b0168f365d2a802178f4c0f61ecd41bf5
-    </div>
+    {% endif %}
     <div>
         <input class="btn btn-success" type="submit" value="Enviar">
     </div>
 </form>
-{% endif %}
 
 <!-- Barra de Pesquisa -->
 <form class="form-group my-2" method="get" style="width: 50%;">
-<<<<<<< HEAD
     <input type="text" name="nome_colaborador" placeholder="Pesquisar uma Ação" value="{{ request.GET.nome_colaborador }} " style="width: 100%;">
-=======
-    <input type="text" name="nome_item" placeholder="Pesquisar um EPI" value="{{ request.GET.nome_item }}" style="width: 100%;">
->>>>>>> 57783c8b0168f365d2a802178f4c0f61ecd41bf5
     <button type="submit" class="btn btn-primary btn-sm">Pesquisar</button>
 </form>
 
 <!-- Tabela com Itens do Banco de Dados -->
 <div class="table-responsive">
-<<<<<<< HEAD
     <table class="table table-bordered" style="width: 100%;">
         <thead>
             <tr>
@@ -111,33 +97,26 @@
                 <td>
                    <a href="{% url 'atualizar_acao' acao.id %}" class="btn btn-warning btn-sm">Editar</a>
                    <a href="{% url 'excluir_acao' acao.id %}" class="btn btn-danger btn-sm">Deletar</a>
-=======
-    <table class="table table-bordered" style="width: 50%;">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>C.A.</th>
-                <th>Validade</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in itens %}
-            <tr>
-                <td>{{ item.equipamento }}</td>
-                <td>{{ item.colaborador }}</td>
-                <td>{{ item.data_emprestimo|date:'d/m/Y' }}</td>
-                <td>
-                    <a href="{% url 'atualizar_acao' item.id %}" class="btn btn-primary btn-sm">Editar</a>
->>>>>>> 57783c8b0168f365d2a802178f4c0f61ecd41bf5
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
-<<<<<<< HEAD
+<script>
+    function checkStatus() {
+        const status = document.getElementById('status').value;
+        const devolucaoSection = document.getElementById('devolucao-section');
+        const observacaoSection = document.getElementById('observacao-section');
+        
+        if (status === 'devolvido' || status === 'danificado' || status === 'perdido') {
+            devolucaoSection.style.display = 'block';
+            observacaoSection.style.display = 'block';
+        } else {
+            devolucaoSection.style.display = 'none';
+            observacaoSection.style.display = 'none';
+        }
+    }
+    document.addEventListener('DOMContentLoaded', checkStatus);
+</script>
 {% endblock content %}
-=======
-{% endblock content %}
->>>>>>> 57783c8b0168f365d2a802178f4c0f61ecd41bf5

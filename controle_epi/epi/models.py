@@ -26,7 +26,7 @@ class Registro(models.Model):
         previsao_devolucao = models.DateField()	
         status = models.CharField(max_length=100, default='Em Preparação')
         condicoes = models.CharField(max_length=100)
-        data_devolucao = models.DateField()
-        observacao = models.CharField(max_length=100)
+        data_devolucao = models.DateField(null=True)
+        observacao = models.CharField(max_length=100, null=True)
         def __str__(self):
                 return f"Registro: {self.equipamento, self.colaborador, self.data_emprestimo, self.previsao_devolucao, self.status, self.condicoes, self.data_devolucao, self.observacao}"
