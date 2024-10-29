@@ -22,7 +22,10 @@ urlpatterns = [
     path('listar_acao/', views.listar_acao, name='listar_acao'),
     path('atualizar_acao/', views.atualizar_acao, name='atualizar_acao_tela'),
     path('atualizar_acao/<int:id>/', views.atualizar_acao, name='atualizar_acao'),
+<<<<<<< HEAD
     path('excluir_acao/<int:id>/', views.excluir_acao, name='excluir_acao'),
+=======
+>>>>>>> 57783c8b0168f365d2a802178f4c0f61ecd41bf5
     #Loguin e Logout
     path('login/', auth_views.LoginView.as_view(template_name='epi/globals/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
