@@ -1,4 +1,4 @@
-
+{% load static %}
 <header class="top-bar">
     <div class="left">
         <a href="/">Home</a>
@@ -9,6 +9,7 @@
             <a href="{% url 'logout' %}">Logout</a>
         {% else %}
             <a href="{% url 'login' %}">Login</a>
+            <img src="{% static 'img\sorrindo.png' %}" alt="sorriso" style="max-width: 150px; height: auto;">
         {% endif %}
     </div>
 </header>

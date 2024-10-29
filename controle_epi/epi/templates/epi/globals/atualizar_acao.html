@@ -1,0 +1,98 @@
+{% extends "epi/index.html" %}
+
+{% block title %}Segurity EPI's{% endblock title %}
+
+{% block content %}
+
+{% if erro %}
+<div class="alert alert-danger alert-dismissible fade show">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <strong>Preencha todos os campos!</strong>
+</div>
+{% endif %}
+
+{% if acao %}
+<form action="{% url 'atualizar_acao' acao.id %}" method="post">
+    {% csrf_token %}
+    <div class="form-group my-2">
+        <label for="equipamento">Equipamento</label>
+        <input class="form-control" type="text" name="acao.equipamento" placeholder="equipamento" value="{{ acao.equipamento.nome }}">
+    </div>
+    
+    <div class="form-group my-2">
+        <label for="colaborador">Colaborador</label>
+        <input class="form-control" type="text" name="colaborador" placeholder="Colaborador" value="{{ acao.colaborador.nome }}">
+    </div>
+    <div class="form-group my-2">
+        <label for="data_emprestimo">Data do Empréstimo</label>
+        <input class="form-control" type="date" name="data_emprestimo" placeholder="Data do Empréstimo" value="{{ acao.data_emprestimo|date:'d/m/Y' }}">
+    </div>
+    <div class="form-group my-2">
+        <label for="previsao_devolucao">Data de Previsão Devolução</label>
+        <input class="form-control" type="date" name="previsao_devolucao" placeholder="Data de Previsão Devolução" value="{{ acao.previsao_devolucao|date:'d/m/Y' }}">
+    </div>
+    <div class="form-group my-2">
+        <label for="status">Status</label>
+        <input class="form-control" type="text" name="status" placeholder="Status" value="{{ acao.status }}">
+    </div>
+    <div class="form-group my-2">
+        <label for="condicoes">Condições</label>
+        <input class="form-control" type="text" name="condicoes" placeholder="Condições" value="{{ acao.condicoes}}">
+    </div>
+    <div class="form-group my-2">
+        <label for="acao.data_devolucao">Data de Devolução</label>
+        <input class="form-control" type="date" name="data_devolucao" placeholder="Data de Devolução" value="{{ acao.data_devolucao|date:'d/m/Y' }}">
+    </div>
+    <div class="form-group my-2">
+        <label for="observacao">Observação</label>
+        <input class="form-control" type="text" name="observacao" placeholder="Observação" value="{{ acao.observacao }}">
+    </div>
+    <div>
+        <input class="btn btn-success" type="submit" value="Enviar">
+    </div>
+</form>
+{% endif %}
+
+<!-- Barra de Pesquisa -->
+<form class="form-group my-2" method="get" style="width: 50%;">
+    <input type="text" name="nome_colaborador" placeholder="Pesquisar uma Ação" value="{{ request.GET.nome_colaborador }} " style="width: 100%;">
+    <button type="submit" class="btn btn-primary btn-sm">Pesquisar</button>
+</form>
+
+<!-- Tabela com Itens do Banco de Dados -->
+<div class="table-responsive">
+    <table class="table table-bordered" style="width: 100%;">
+        <thead>
+            <tr>
+                <th style="text-align: center">Equipamento</th>
+                <th style="text-align: center">Colaborador</th>
+                <th style="text-align: center">Data de Empréstimo</th>
+                <th style="text-align: center">Data de Previsão de Devolução</th>
+                <th style="text-align: center">Status</th>
+                <th style="text-align: center">Condições do Equipamento no Empréstimo</th>
+                <th style="text-align: center">Data de Devolução</th>
+                <th style="text-align: center">Observação na Devolução/Perda</th>
+                <th style="text-align: center">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for acao in acoes %}
+            <tr>
+                <td>{{ acao.equipamento.nome }}</td>
+                <td>{{ acao.colaborador.nome }}</td>
+                <td>{{ acao.data_emprestimo|date:'d/m/Y' }}</td>
+                <td>{{ acao.previsao_devolucao|date:'d/m/Y' }}</td>
+                <td>{{ acao.status }}</td>
+                <td>{{ acao.condicoes }}</td>
+                <td>{{ acao.data_devolucao|date:'d/m/Y' }}</td>
+                <td>{{ acao.observacao }}</td>
+                <td>
+                   <a href="{% url 'atualizar_acao' acao.id %}" class="btn btn-warning btn-sm">Editar</a>
+                   <a href="{% url 'excluir_acao' acao.id %}" class="btn btn-danger btn-sm">Deletar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

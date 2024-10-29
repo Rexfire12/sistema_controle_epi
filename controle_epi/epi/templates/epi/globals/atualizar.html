@@ -44,10 +44,10 @@
     <table class="table table-bordered" style="width: 50%;">
         <thead>
             <tr>
-                <th>Nome</th>
-                <th>C.A.</th>
-                <th>Validade</th>
-                <th>Ações</th>
+                <th style="text-align: center">Nome</th>
+                <th style="text-align: center">C.A.</th>
+                <th style="text-align: center">Validade</th>
+                <th style="text-align: center">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -56,8 +56,8 @@
                 <td>{{ item.nome }}</td>
                 <td>{{ item.ca }}</td>
                 <td>{{ item.validade|date:'d/m/Y' }}</td>
-                <td>
-                    <a href="{% url 'atualizar_epi' item.id %}" class="btn btn-primary btn-sm">Editar</a>
+                <td style="text-align: center;">
+                    <a href="{% url 'atualizar_epi' item.id %}" class="btn btn-warning btn-sm">Editar</a>
                     <a href="{% url 'excluir_epi' item.id %}" class="btn btn-danger btn-sm">Deletar</a>
                 </td>
             </tr>

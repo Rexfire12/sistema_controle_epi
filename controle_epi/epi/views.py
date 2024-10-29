@@ -31,7 +31,7 @@ def cadastrar_epi(request):
             ca=ca,
             validade=validade
         )
-        return render(request, 'epi/globals/cadastrar.html', {'equipamento': epi,'erro': True})
+        return redirect(listar_epi)
     return render(request, 'epi/globals/cadastrar.html')
 
 #Editar EPI
@@ -89,7 +89,7 @@ def cadastrar_colaborador(request):
             cargo=cargo,
             matricula=matricula
         )
-        return render(request, 'epi/globals/cadastrar_colaborador.html', {'colaborador': colaborador, 'erro': True})
+        return redirect(listar_colaborador)
     return render(request, 'epi/globals/cadastrar_colaborador.html')
 
 #Editar Colaboradores
@@ -111,7 +111,7 @@ def atualizar_colaborador(request, id=0):
             colaborador.cargo = cargo
             colaborador.matricula = matricula
             colaborador.save()
-            return redirect(atualizar_colaborador)
+            return redirect(listar_colaborador)
         else:
             return render(request, 'epi/globals/atualizar_colaborador.html', {'colaborador': colaborador, 'erro': True})
     return render(request, 'epi/globals/atualizar_colaborador.html', {'colaborador': colaborador})
@@ -149,13 +149,16 @@ def registrar_acao(request):
             data_devolucao=data_devolucao,
             observacao=observacao
         )
-        return render(request, 'epi/globals/registrar_acao.html', {'acao': acao, 'erro': True})
+        return redirect(listar_acao)
 
     return render(request, 'epi/globals/registrar_acao.html', {'acao': None})
 
 #Listar Ações
 def listar_acao(request):
     values = Registro.objects.all()
+    pesquisa = request.GET.get('nome_colaborador')
+    if pesquisa:
+        values = values.filter(colaborador__nome__icontains=pesquisa)
     colaborador = request.GET.get('colaborador')
     equipamento = request.GET.get('equipamento')
     data_emprestimo = request.GET.get('data_emprestimo')
@@ -167,9 +170,9 @@ def listar_acao(request):
     
 
     if colaborador:
-        values = values.filter(colaborador__icontains=colaborador)
+        values = values.filter(colaborador__nome__icontains=colaborador)
     if equipamento:
-        values = values.filter(equipamento__icontains=equipamento)
+        values = values.filter(equipamento__nome__icontains=equipamento)
     if data_emprestimo:
         values = values.filter(data_emprestimo__icontains=data_emprestimo)
     if previsaodevolucao:
@@ -182,4 +185,46 @@ def listar_acao(request):
         values = values.filter(data_devolucao__icontains=data_devolucao)
     if observacao:
         values = values.filter(observacao__icontains=observacao)
-    return render(request, 'epi/globals/listar_acao.html', {'acoes': values})
+    filtered_values = values.values('equipamento__nome', 'colaborador__nome', 'data_emprestimo', 'previsao_devolucao', 'status', 'condicoes', 'data_devolucao', 'observacao')if values.exists() else []
+    return render(request, 'epi/globals/listar_acao.html', {'acoes': filtered_values})
+#Atualizar Ações
+def atualizar_acao(request, id=0):
+    if id == 0:
+        if request.method == 'GET' and request.GET.get('nome_colaborador'):
+            nome_colaborador = request.GET.get('nome_colaborador').strip()
+            acoes = Registro.objects.filter(colaborador__nome__icontains=nome_colaborador)
+        else:
+            acoes = Registro.objects.all()
+        return render(request, 'epi/globals/atualizar_acao.html', {'acoes': acoes})
+    acao = get_object_or_404(Registro, id=id)
+    if request.method == 'POST':
+        equipamento = request.POST.get('equipamento')
+        colaborador = request.POST.get('colaborador')
+        data_emprestimo = request.POST.get('data_emprestimo')
+        previsao_devolucao = request.POST.get('previsao_devolucao')
+        status = request.POST.get('status')
+        condicoes = request.POST.get('condicoes')
+        data_devolucao = request.POST.get('data_devolucao')
+        observacao = request.POST.get('observacao')
+        if equipamento and colaborador and data_emprestimo and previsao_devolucao and status and condicoes and data_devolucao and observacao:
+            equipamento = get_object_or_404(Equipamento, nome=equipamento)
+            colaborador = get_object_or_404(Colaborador, nome=colaborador) 
+            acao.equipamento = equipamento
+            acao.colaborador = colaborador
+            acao.data_emprestimo = data_emprestimo            
+            acao.previsao_devolucao = previsao_devolucao
+            acao.status = status
+            acao.condicoes = condicoes
+            acao.data_devolucao = data_devolucao
+            acao.observacao = observacao
+            acao.save()
+            return redirect(listar_acao)
+        else:
+            return render(request, 'epi/globals/atualizar_acao.html', {'acao': acao, 'erro': True})
+    return render(request, 'epi/globals/atualizar_acao.html', {'acao': acao})
+
+#Excluir Ações
+def excluir_acao(request, id=0):
+    acao = Registro.objects.get(id=id)
+    acao.delete()
+    return redirect(listar_acao)

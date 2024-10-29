@@ -3,15 +3,15 @@
 {% block title %}Segurity EPI's{% endblock title %}
 
 {% block content %}
-<div class="container">
+<div class="container" style="text-align: left;">
     <h2>Relatório de Empréstimo</h2>
     
     <form method="get" style="width: 50%; margin-bottom: 20px;">
-        <input type="text" name="nome" placeholder="Pesquisar um Colaborador" value="{{ request.GET.nome }}" style="width: 100%;">
+        <input type="text" name="nome_colaborador" placeholder="Pesquisar um Colaborador" value="{{ request.GET.nome_colaborador }}" style="width: 100%;">
         <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
     </form>
     
-    <table class="table table-bordered table-sm" style="width: 100%; margin: 0 auto;">
+    <table class="table table-bordered table-sm" style="width: 100%;">
         <thead>
             <tr>
                 <th>Equipamento</th>
@@ -27,8 +27,8 @@
         <tbody>
             {% for acao in acoes %}
             <tr>
-                <td>{{ acao.equipamento }}</td>
-                <td>{{ acao.colaborador }}</td>
+                <td>{{ acao.equipamento__nome }}</td>
+                <td>{{ acao.colaborador__nome }}</td>
                 <td>{{ acao.data_emprestimo }}</td>
                 <td>{{ acao.previsao_devolucao }}</td>
                 <td>{{ acao.status }}</td>

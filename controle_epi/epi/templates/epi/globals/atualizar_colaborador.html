@@ -42,10 +42,10 @@
     <table class="table table-bordered" style="width: 50%;">
         <thead>
             <tr>
-                <th>Nome</th>
-                <th>Cargo</th>
-                <th>Matricula</th>
-                <th>Ações</th>
+                <th style="text-align: center">Nome</th>
+                <th style="text-align: center">Cargo</th>
+                <th style="text-align: center">Matricula</th>
+                <th style="text-align: center">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -55,7 +55,7 @@
                 <td>{{ item.cargo }}</td>
                 <td>{{ item.matricula}}</td>
                 <td>
-                    <a href="{% url 'atualizar_colaborador' item.id %}" class="btn btn-primary btn-sm">Editar</a>
+                    <a href="{% url 'atualizar_colaborador' item.id %}" class="btn btn-warning btn-sm">Editar</a>
                     <a href="{% url 'excluir_colaborador' item.id %}" class="btn btn-danger btn-sm">Deletar</a>
                 </td>
             </tr>

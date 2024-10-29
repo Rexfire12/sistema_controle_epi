@@ -89,3 +89,17 @@
     padding-top: 60px; /* Adiciona espaço igual à altura da top-bar */
     background-color: #fff;
 }
+
+/* Login */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-form {
+    margin-right: 20px;
+}
+.login-image {
+    max-width: 300px;
+    border-radius: 10px;
+}
