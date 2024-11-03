@@ -206,7 +206,18 @@ def atualizar_acao(request, id=0):
         condicoes = request.POST.get('condicoes')
         data_devolucao = request.POST.get('data_devolucao')
         observacao = request.POST.get('observacao')
-        if equipamento and colaborador and data_emprestimo and previsao_devolucao and status and condicoes and data_devolucao and observacao:
+        print(f"Equipamento:{equipamento}")
+        print(f"Colaborador:{colaborador}")
+        print(f"Data Emprestimo:{data_emprestimo}")
+        print(f"Previsão Devolução:{previsao_devolucao}")
+        print(f"Status:{status}")
+        print(f"Condições:{condicoes}")
+        print(f"Data Devolução:{data_devolucao}")
+        print(f"Observação:{observacao}")
+        
+        if equipamento and colaborador and data_emprestimo and previsao_devolucao and status and condicoes:
+            if status in ['devolvido', 'danificado', 'perdido'] and not (data_devolucao and observacao):
+                return render(request, 'epi/globals/atualizar_acao.html', {'acao': acao, 'erro': True, 'msg_erro': 'Selecione uma Data de Devolução e uma Observação'})
             equipamento = get_object_or_404(Equipamento, nome=equipamento)
             colaborador = get_object_or_404(Colaborador, nome=colaborador) 
             acao.equipamento = equipamento
@@ -215,8 +226,8 @@ def atualizar_acao(request, id=0):
             acao.previsao_devolucao = previsao_devolucao
             acao.status = status
             acao.condicoes = condicoes
-            acao.data_devolucao = data_devolucao
-            acao.observacao = observacao
+            acao.data_devolucao = data_devolucao if data_devolucao else acao.data_devolucao
+            acao.observacao = observacao if observacao else acao.observacao
             acao.save()
             return redirect(listar_acao)
         else:
